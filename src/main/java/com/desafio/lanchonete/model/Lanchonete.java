@@ -18,8 +18,19 @@ public class Lanchonete {
     @NonNull
     private String name;
 
-    @NonNull
-    private String preco;
+    private boolean alface;
 
-    private String extra; //pode ser nulo
+    private boolean bacon;
+
+    private boolean hamburguer;
+
+    private boolean ovo;
+
+    private boolean queijo;
+
+    private int muita_carne;
+
+    private int muito_queijo;
+
+    private double preco;
 }
