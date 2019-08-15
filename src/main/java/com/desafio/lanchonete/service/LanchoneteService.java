@@ -19,6 +19,12 @@ public class LanchoneteService {
     @Autowired
     private LanchoneteRepository lanchoneteRepository;
 
+    final double preco_alface = 0.4;
+    final double preco_bacon = 2.0;
+    final double preco_hamburguer = 3.0;
+    final double preco_ovo = 0.8;
+    final double preco_queijo = 1.5;
+
     public Lanchonete insertLanche(Lanchonete lanche) throws ServiceException {
         validateInsert(lanche);
         return lanchoneteRepository.insert(lanche);
@@ -39,7 +45,39 @@ public class LanchoneteService {
         if(lanchoneteRepository.findByName(lanche.getName()).isPresent())
             throw new DuplicateKeyException(String.format("Name %s already exist", lanche.getName()));
 
+        lanche.setPreco(calculo(lanche));
+    }
 
+    private double calculo(Lanchonete lanche){
+        double preco = 0.0;
 
+        if(lanche.isAlface())
+            preco += preco_alface;
+        if(lanche.isBacon())
+            preco += preco_bacon;
+        if(lanche.isOvo())
+            preco += preco_ovo;
+
+        if(lanche.isHamburguer()) {
+            //verificar promocao muita carne
+            int qta_carne = (lanche.getMuita_carne() / 3) * 2;
+            if(qta_carne != 0)
+                preco += preco_hamburguer * qta_carne;
+            else
+                preco += preco_hamburguer;
+        }
+        if(lanche.isQueijo()) {
+            int qto_queijo = (lanche.getMuito_queijo() / 3) * 2;
+            if(qto_queijo != 0)
+                preco += preco_queijo * qto_queijo;
+            else
+                preco += preco_queijo;
+        }
+
+        //verificar promoção light
+        if(lanche.isAlface() && !(lanche.isBacon()))
+            preco = preco - (preco * 0.1);
+
+        return preco;
     }
 }
