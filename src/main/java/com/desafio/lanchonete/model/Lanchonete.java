@@ -18,6 +18,8 @@ public class Lanchonete {
     @NonNull
     private String name;
 
+    private boolean menu;
+
     private boolean alface;
 
     private boolean bacon;

@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 @EnableMongoAuditing
 public class MongoDBconfig extends AbstractMongoConfiguration {
 
-    private static final String DATABASE_NAME = "cardapio";
+    private static final String DATABASE_NAME = "pedidos";
 
     private String host;
 

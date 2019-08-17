@@ -10,25 +10,38 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 @RestController
-@RequestMapping(path = "/lanche", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class LanchoneteController {
     @Autowired
     LanchoneteService service;
 
+    /*
+    * Sempre que um pedido é realizado, é incluido no banco
+    * */
+    @CrossOrigin(origins = "http://localhost:3000/")
     @PostMapping
     public ResponseEntity<Lanchonete> insertLanche(@RequestBody Lanchonete lanche) throws Exception{
         return ResponseEntity.ok(service.insertLanche(lanche));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity <Lanchonete> getById(@PathVariable String id) throws Exception{
-        return ResponseEntity.ok(service.findById(id));
+    @DeleteMapping("/{id}")
+    public ResponseEntity <String> delete (@PathVariable String id) throws Exception{
+        service.delete(id);
+        return ResponseEntity.ok(String.format("Excluido com Sucesso!!!"));//return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
+    @DeleteMapping
+    public ResponseEntity <String> deleteAll () throws Exception{
+        service.deleteAll();
+        return ResponseEntity.ok(String.format("Todos os itens foram excluidos!"));//return ResponseEntity.noContent().build();
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000/")
+    @GetMapping("")
     public ResponseEntity<Stream<Lanchonete>> getAll(@SortDefault.SortDefaults(
             {@SortDefault(sort = "name", direction = Sort.Direction.ASC)})Pageable pageable){
         return ResponseEntity.ok(service.findAll(pageable).get());
