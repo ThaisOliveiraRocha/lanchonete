@@ -28,6 +28,7 @@ public class LanchoneteController {
         return ResponseEntity.ok(service.insertLanche(lanche));
     }
 
+    @CrossOrigin(origins = "http://localhost:3000/")
     @DeleteMapping("/{id}")
     public ResponseEntity <String> delete (@PathVariable String id) throws Exception{
         service.delete(id);
@@ -41,7 +42,7 @@ public class LanchoneteController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000/")
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<Stream<Lanchonete>> getAll(@SortDefault.SortDefaults(
             {@SortDefault(sort = "name", direction = Sort.Direction.ASC)})Pageable pageable){
         return ResponseEntity.ok(service.findAll(pageable).get());

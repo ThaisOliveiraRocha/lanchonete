@@ -64,19 +64,4 @@ public class LanchoneteServiceTest {
         verify(lanchoneteRepository, times(1)).findByName(name);
         assertEquals(lancheRetornado, lanche);
     }
-
-    @Test
-    public void testPrecoLancheMenu() throws Exception {
-        //nao é isso
-        Lanchonete lanche = LanchoneteData.getLanchoneteMock();
-        when(lanchoneteRepository.insert(eq(lanche))).thenReturn(lanche);
-
-        //when
-        Lanchonete lancheRetornado = service.insertLanche(lanche);
-
-        //then
-        assertNotNull(lancheRetornado);
-        assertEquals(lanche, lancheRetornado);
-        verify(lanchoneteRepository, times(1)).insert((eq(lanche)));
-    }
 }
